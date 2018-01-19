@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="wordcount-wf">
+	<start to="start-node" />
+	<action name="FlightCancellation">
+		<map-reduce>
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+			<prepare>
+				<delete path="${nameNode}/user/${wf:user()}/${output}_FlightCancellation" />
+			</prepare>
+			<configuration>
+				<property>
+					<name>mapred.mapper.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.reducer.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+				<property>
+					<name>mapreduce.map.class</name>
+					<value>CancellationMapper</value>
+				</property>
+				<property>
+					<name>mapreduce.reduce.class</name>
+					<value>CancellationReducer</value>
+				</property>
+				<property>
+					<name>mapred.output.key.class</name>
+					<value>org.apache.hadoop.io.Text</value>
+				</property>
+				<property>
+					<name>mapred.output.value.class</name>
+					<value>org.apache.hadoop.io.LongWritable</value>
+				</property>
+				<property>
+					<name>mapred.map.tasks</name>
+					<value>1</value>
+				</property>
+				<property>
+					<name>mapred.input.dir</name>
+					<value>/user/${wf:user()}/input</value>
+				</property>
+				<property>
+					<name>mapred.output.dir</name>
+					<value>/user/${wf:user()}/${output}_FlightCancellation</value>
+				</property>
+			</configuration>
+		</map-reduce>
+		<ok to="TaxiIn" />
+		<error to="fail" />
+	</action>
+	<action name="TaxiIn">
+		<map-reduce>
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+			<prepare>
+				<delete path="${nameNode}/user/${wf:user()}/${output}_TaxiIn" />
+			</prepare>
+			<configuration>
+				<property>
+					<name>mapred.mapper.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.reducer.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+				<property>
+					<name>mapreduce.map.class</name>
+					<value>TaxiInTimeMapper</value>
+				</property>
+				<property>
+					<name>mapreduce.reduce.class</name>
+					<value>TaxiReducer</value>
+				</property>
+				<property>
+					<name>mapred.output.key.class</name>
+					<value>org.apache.hadoop.io.Text</value>
+				</property>
+				<property>
+					<name>mapred.output.value.class</name>
+					<value>org.apache.hadoop.io.DoubleWritable</value>
+				</property>
+				<property>
+					<name>mapred.map.tasks</name>
+					<value>1</value>
+				</property>
+				<property>
+					<name>mapred.input.dir</name>
+					<value>/user/${wf:user()}/input</value>
+				</property>
+				<property>
+					<name>mapred.output.dir</name>
+					<value>/user/${wf:user()}/${output}_TaxiIn</value>
+				</property>
+			</configuration>
+		</map-reduce>
+		<ok to="TaxiOut" />
+		<error to="fail" />
+	</action>
+	<action name="TaxiOut">
+		<map-reduce>
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+			<prepare>
+				<delete path="${nameNode}/user/${wf:user()}/${output}_TaxiOut" />
+			</prepare>
+			<configuration>
+				<property>
+					<name>mapred.mapper.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.reducer.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+				<property>
+					<name>mapreduce.map.class</name>
+					<value>TaxiOutMapper</value>
+				</property>
+				<property>
+					<name>mapreduce.reduce.class</name>
+					<value>TaxiReducer</value>
+				</property>
+				<property>
+					<name>mapred.output.key.class</name>
+					<value>org.apache.hadoop.io.Text</value>
+				</property>
+				<property>
+					<name>mapred.output.value.class</name>
+					<value>org.apache.hadoop.io.DoubleWritable</value>
+				</property>
+				<property>
+					<name>mapred.map.tasks</name>
+					<value>1</value>
+				</property>
+				<property>
+					<name>mapred.input.dir</name>
+					<value>/user/${wf:user()}/input</value>
+				</property>
+				<property>
+					<name>mapred.output.dir</name>
+					<value>/user/${wf:user()}/${output}_TaxiOut</value>
+				</property>
+			</configuration>
+		</map-reduce>
+		<ok to="OnSchedule" />
+		<error to="fail" />
+	</action>
+	<action name="OnSchedule">
+		<map-reduce>
+			<job-tracker>${jobTracker}</job-tracker>
+			<name-node>${nameNode}</name-node>
+			<prepare>
+				<delete path="${nameNode}/user/${wf:user()}/${output}_OnSchedule" />
+			</prepare>
+			<configuration>
+				<property>
+					<name>mapred.mapper.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.reducer.new-api</name>
+					<value>true</value>
+				</property>
+				<property>
+					<name>mapred.job.queue.name</name>
+					<value>${queueName}</value>
+				</property>
+				<property>
+					<name>mapreduce.map.class</name>
+					<value>OnScheduleMapper</value>
+				</property>
+				<property>
+					<name>mapreduce.reduce.class</name>
+					<value>OnScheduleReducer</value>
+				</property>
+				<property>
+					<name>mapred.output.key.class</name>
+					<value>org.apache.hadoop.io.Text</value>
+				</property>
+				<property>
+					<name>mapred.output.value.class</name>
+					<value>org.apache.hadoop.io.DoubleWritable</value>
+				</property>
+				<property>
+					<name>mapred.map.tasks</name>
+					<value>1</value>
+				</property>
+				<property>
+					<name>mapred.input.dir</name>
+					<value>/user/${wf:user()}/input</value>
+				</property>
+				<property>
+					<name>mapred.output.dir</name>
+					<value>/user/${wf:user()}/${output}_OnSchedule</value>
+				</property>
+			</configuration>
+		</map-reduce>
+		<ok to="end" />
+		<error to="fail" />
+	</action>
+	<kill name="fail">
+		<message>Your Map/Reduce Program failed with error
+			message[${wf:errorMessage(wf:lastErrorNode())}]
+		</message>
+	</kill>
+	<end name="end" />
+</workflow-app>

@@ -1,0 +1,8 @@
+The following are the Flights with Highest probability for being on schedule
+PI	0.33778237063171457
+EV	0.30686897336503166
+B6	0.2911425986432525
+The following are the Flights with Lowest probability for being on schedule
+HA	0.08693867528650329
+AQ	0.12953856917502163
+ML (1)	0.19311621985271776
