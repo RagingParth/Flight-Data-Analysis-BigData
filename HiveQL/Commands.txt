@@ -1,0 +1,18 @@
+Step 1: Loading Raw data into HDFS
+hadoop fs -put /home/"path"/DelayedFlights.csv
+
+Step 2: Start the Hive Metastore Server-
+hive --service metastore
+
+Step 3: Create Hive table with same schema as Pig output from the next step.
+Run the CreateAviationTable.sql using the below command-
+hive -f CreateAviationTable.sql
+
+Step 4: Pre-processing using Pig and load the output into Hive using HCatalog
+Run the preprocess.pig script using the below command-
+pig preprocess.pig
+
+Step 5: Now run the HiveSQL scripts
+CancellationDueToWeather.sql
+CreateAviationTable.sql
+MostVisitedDestinations.sql
